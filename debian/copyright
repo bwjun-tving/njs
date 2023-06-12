@@ -1,0 +1,11 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: nginx
+Source: http://hg.nginx.org/njs
+
+Files: *
+Copyright: 2015-2023, NGINX, Inc.
+           2015-2021, Igor Sysoev
+           2017-2023, Dmitry Volyntsev
+           2019-2022, Alexander Borisov
+           2022-2023, Vadim Zhestikov
+License: BSD-2-clause

@@ -1,0 +1,37 @@
+#!/usr/bin/make -f
+export DH_VERBOSE=1
+export DH_OPTIONS=-v
+DEB_BUILD_OPTIONS=nostrip
+SHELL=/bin/bash
+NGINX_VERSION := $(shell cat debian/nginx_version)
+NGINX_SRC = $(shell find build/ -mindepth 1 -maxdepth 1 -type d)
+INSTALLDIR := $(CURDIR)/debian/nginx-mod-njs
+
+%:
+	dh $@
+
+override_dh_auto_clean:
+	rm -rf build
+
+download_src:
+	mkdir -p build;  cd build;  apt-get source nginx=$(NGINX_VERSION) || (echo "Error nginx apt sources not configured. Run \
+        'sudo rsync -Huhvr files/ / && sudo apt-get update'" from project root; exit 1)
+
+override_dh_auto_configure: download_src
+	cd $(NGINX_SRC); ./configure --with-compat --add-dynamic-module=../../nginx
+
+override_dh_auto_build:
+	cd $(NGINX_SRC); make modules
+
+override_dh_auto_test:
+	# XXX undefined reference to `pcre_xxx'
+
+override_dh_auto_install:
+	install -d $(INSTALLDIR)/usr/lib/nginx/modules
+	for lib in $(wildcard $(NGINX_SRC)/objs/*.so); do install -D -s $${lib} $(INSTALLDIR)/usr/lib/nginx/modules; done
+	install -d $(INSTALLDIR)/usr/share/nginx/modules-available
+	install -D debian/mod-njs.conf $(INSTALLDIR)/usr/share/nginx/modules-available
+
+override_dh_fixperms:
+	dh_fixperms
+	find debian -name '*.so' -exec chmod 0755 {} +

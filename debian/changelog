@@ -1,0 +1,5 @@
+nginx-mod-njs (0.7.12-1) unstable; urgency=medium
+
+  * Initial release
+
+ -- Byungwan Jun <bw.jun@cj.net>  Tue, 11 Apr 2023 01:50:00 +0900

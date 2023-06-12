@@ -1,0 +1,23 @@
+if [ "$1" = "purge" ] ; then
+	if [ -L /etc/nginx/modules-enabled/90-mod-njs.conf ]; then
+		rm /etc/nginx/modules-enabled/90-mod-njs.conf
+	fi
+	if [ -L /etc/nginx/modules-enabled/90-mod-njs.conf.removed ]; then
+		rm /etc/nginx/modules-enabled/90-mod-njs.conf.removed
+	fi
+fi
+
+if [ "$1" = "remove" ] ; then
+	if [ -L /etc/nginx/modules-enabled/90-mod-njs.conf ]; then
+		mv /etc/nginx/modules-enabled/90-mod-njs.conf \
+			/etc/nginx/modules-enabled/90-mod-njs.conf.removed
+	fi
+
+	if which dpkg-trigger >/dev/null 2>&1 ; then
+		dpkg-trigger --no-await nginx-reload
+	fi
+fi
+
+# Local Variables:
+# mode: shell-script
+# End:

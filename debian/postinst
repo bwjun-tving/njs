@@ -1,0 +1,21 @@
+if [ -L /etc/nginx/modules-enabled/90-mod-njs.conf.removed ]; then
+	rm /etc/nginx/modules-enabled/90-mod-njs.conf.removed
+	removed_link=true
+else
+	removed_link=false
+fi
+
+if [ -z "$2" -o "$removed_link" = "true" ]; then
+	ln -sf /usr/share/nginx/modules-available/mod-njs.conf \
+		/etc/nginx/modules-enabled/90-mod-njs.conf
+fi
+
+if [ "$1" = "configure" ] ; then
+	if which dpkg-trigger >/dev/null 2>&1 ; then
+		dpkg-trigger --no-await nginx-reload
+	fi
+fi
+
+# Local Variables:
+# mode: shell-script
+# End:

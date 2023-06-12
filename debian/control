@@ -1,0 +1,11 @@
+Source: nginx-mod-njs
+Section: httpd
+Priority: optional
+Maintainer: Byungwan Jun <bw.jun@cj.net>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 4.1.2
+
+Package: nginx-mod-njs
+Architecture: any
+Depends: ${misc:Depends}
+Description: njs scripting language module for nginx

@@ -1,0 +1,10 @@
+if [ "$1" = "remove" ] || [ "$1" = "deconfigure" ] ; then
+	if [ -L /etc/nginx/modules-enabled/90-mod-njs.conf ]; then
+		mv /etc/nginx/modules-enabled/90-mod-njs.conf \
+			/etc/nginx/modules-enabled/90-mod-njs.conf.removed
+	fi
+fi
+
+# Local Variables:
+# mode: shell-script
+# End:

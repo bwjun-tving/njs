@@ -1,0 +1,6 @@
+files
+debhelper-build-stamp
+nginx-mod-njs.substvars
+nginx-mod-njs.debhelper.log
+.debhelper/
+nginx-mod-njs/
