@@ -1,0 +1,51 @@
+##
+# nginx-mod-njs
+#
+# @file Makefile.dist
+# @version 0.0.1
+
+SUBDIRS = nginx external
+DISTFILES = \
+    nginx/config \
+    nginx/ngx_js.h \
+    nginx/ngx_js_fetch.h \
+    nginx/ngx_js.c \
+    nginx/ngx_js_fetch.c \
+    nginx/ngx_js_regex.c \
+    external/njs_webcrypto_module.c \
+    external/njs_zlib_module.c \
+    external/njs_xml_module.c \
+
+TAR = tar
+GZIP = --best
+default: dist
+
+distdir = nginx-mod-njs-0.7.12
+
+.PHONY: clean distdir dist
+
+clean:
+	rm -rf $(distdir) $(distdir).tar.gz
+
+distdir: $(DISTFILES)
+	rm -rf $(distdir)
+	mkdir $(distdir)
+	-chmod 777 $(distdir)
+	for subdir in $(SUBDIRS); do		\
+	  test -d $(distdir)/$$subdir		\
+	  || mkdir $(distdir)/$$subdir		\
+	  || exit 1;				\
+	  chmod 777 $(distdir)/$$subdir;	\
+	done
+	@for file in $(DISTFILES); do \
+	  cp -p $$file $(distdir)/$$file; \
+	done
+
+dist: distdir
+	-chmod -R a+r $(distdir)
+	GZIP=$(GZIP) $(TAR) chozf $(distdir).tar.gz $(distdir)
+	rm -rf $(distdir)
+
+# Local Variables:
+# mode: makefile
+# End:
