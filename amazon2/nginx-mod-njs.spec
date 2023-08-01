@@ -14,7 +14,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Prefix: %{_prefix}
 BuildArch: x86_64
 Vendor: Byungwan Jun <bw.jun@cj.net>
-Requires: nginx = 1.22.1
+Requires: nginx >= 1.22.1
 
 
 %description
