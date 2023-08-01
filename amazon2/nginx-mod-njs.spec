@@ -38,7 +38,7 @@ cd %{_builddir}/nginx-1.22.1; make modules
 %install
 install -d %{buildroot}/usr/share/nginx/modules
 install -m 644 %{_builddir}/nginx-1.22.1/objs/ngx_http_js_module.so %{buildroot}/usr/share/nginx/modules/ngx_http_js_module.so
-install -m 644 conf/mod-njs.conf %{buildroot}/usr/share/nginx/modules/mod-njs.conf
+install -m 644 amazon2/mod-njs.conf %{buildroot}/usr/share/nginx/modules/mod-njs.conf
 
 
 %clean

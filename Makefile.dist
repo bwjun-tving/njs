@@ -4,20 +4,9 @@
 # @file Makefile.dist
 # @version 0.0.1
 
-SUBDIRS = nginx external
-DISTFILES = \
-    nginx/config \
-    nginx/ngx_js.h \
-    nginx/ngx_js_fetch.h \
-    nginx/ngx_js.c \
-    nginx/ngx_js_fetch.c \
-    nginx/ngx_js_regex.c \
-    external/njs_webcrypto_module.c \
-    external/njs_zlib_module.c \
-    external/njs_xml_module.c \
+SUBDIRS = amazon2 auto external nginx src test ts utils
 
 TAR = tar
-GZIP = --best
 default: dist
 
 distdir = nginx-mod-njs-0.7.12
@@ -30,20 +19,14 @@ clean:
 distdir: $(DISTFILES)
 	rm -rf $(distdir)
 	mkdir $(distdir)
-	-chmod 777 $(distdir)
+	cp configure $(distdir)
 	for subdir in $(SUBDIRS); do		\
-	  test -d $(distdir)/$$subdir		\
-	  || mkdir $(distdir)/$$subdir		\
-	  || exit 1;				\
-	  chmod 777 $(distdir)/$$subdir;	\
-	done
-	@for file in $(DISTFILES); do \
-	  cp -p $$file $(distdir)/$$file; \
+		cp -r $$subdir $(distdir)/$$subdir;    \
 	done
 
 dist: distdir
 	-chmod -R a+r $(distdir)
-	GZIP=$(GZIP) $(TAR) chozf $(distdir).tar.gz $(distdir)
+	$(TAR) chozf $(distdir).tar.gz $(distdir)
 	rm -rf $(distdir)
 
 # Local Variables:
